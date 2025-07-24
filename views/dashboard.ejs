@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subathon Dashboard</title>
+    <link rel="stylesheet" href="/stylesheets/dash.css">
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <div class="header-content">
+            <h1>Subathon Dashboard</h1>
+            <p>Configure your subathon timer settings</p>
+        </div>
+        <button id="darkModeToggle" class="dark-mode-toggle" aria-label="Toggle dark mode">
+            <span class="theme-icon">☀️</span>
+        </button>
+    </div>
+
+    <div class="grid-container">
+        <!-- API Configuration -->
+        <div class="card">
+            <div class="card-header">
+                <h2>API Configuration</h2>
+                <p>Set up your API connections</p>
+            </div>
+            <div class="card-content">
+                <div class="form-group">
+                    <label for="pallySlug">Pally Slug</label>
+                    <input type="text" id="pallySlug" placeholder="Enter your pally slug" value="<%- data.pallySlug %>" autocomplete="off">
+                </div>
+
+                <div class="form-group">
+                    <label for="apiToken">Pally API Token</label>
+                    <div class="input-with-button">
+                        <input type="password" id="apiToken" placeholder="Enter your API token", value="<%- data.apiToken %>" autocomplete="off">
+                        <button type="button" class="toggle-visibility" data-target="apiToken">
+                            <span class="eye-icon">👁️</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="streamElementsToken">StreamElements Token</label>
+                    <div class="input-with-button">
+                        <input type="password" id="streamElementsToken" placeholder="Enter your StreamElements token", value="<%- data.streamElementsToken %>" autocomplete="off">
+                        <button type="button" class="toggle-visibility" data-target="streamElementsToken">
+                            <span class="eye-icon">👁️</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Timer Configuration -->
+        <div class="card">
+            <div class="card-header">
+                <h2>Timer Settings</h2>
+                <p>Configure initial and maximum timer values</p>
+            </div>
+            <div class="card-content">
+                <div class="time-section">
+                    <label class="section-label">Initial Time</label>
+                    <div class="time-inputs">
+                        <div class="time-input">
+                            <label for="initialHours">Hours</label>
+                            <input type="number" id="initialHours" min="0" max="23" value="<%- data.initialTime.hours %>">
+                        </div>
+                        <div class="time-input">
+                            <label for="initialMinutes">Minutes</label>
+                            <input type="number" id="initialMinutes" min="0" max="59" value="<%- data.initialTime.minutes %>">
+                        </div>
+                        <div class="time-input">
+                            <label for="initialSeconds">Seconds</label>
+                            <input type="number" id="initialSeconds" min="0" max="59" value="<%- data.initialTime.seconds %>">
+                        </div>
+                    </div>
+                    <p class="time-preview" id="initialTimePreview">00:00:00</p>
+                </div>
+
+                <div class="separator"></div>
+
+                <div class="time-section">
+                    <label class="section-label">Maximum Time</label>
+                    <div class="time-inputs">
+                        <div class="time-input">
+                            <label for="maxHours">Hours</label>
+                            <input type="number" id="maxHours" min="0" value="<%- data.maxTime.hours %>">
+                        </div>
+                        <div class="time-input">
+                            <label for="maxMinutes">Minutes</label>
+                            <input type="number" id="maxMinutes" min="0" max="59" value="<%- data.maxTime.hours %>">
+                        </div>
+                        <div class="time-input">
+                            <label for="maxSeconds">Seconds</label>
+                            <input type="number" id="maxSeconds" min="0" max="59" value="<%- data.maxTime.hours %>">
+                        </div>
+                    </div>
+                    <p class="time-preview" id="maxTimePreview">24:00:00</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <h2>Bits Settings</h2>
+                <p>Configure minimum and time added for bits</p>
+            </div>
+            <div class="card-content">
+                <div class="grid-container">
+                    <div class="form-group">
+                        <label for="minBits">Minimum amount of bits to add time</label>
+                        <input type="number" id="minBits" min="0" value="<%- data.bits.min %>">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="timePerBits">Seconds per x amount of bits</label>
+                        <input type="number" id="timePerBits" min="0" value="<%- data.bits.per %>">
+                        <p class="time-preview" id="timePerBitsPreview">2m 0s per x bits</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Subscription Settings -->
+        <div class="card">
+            <div class="card-header">
+                <h2>Subscription Settings</h2>
+                <p>Configure time added for subscriptions and donations in seconds</p>
+            </div>
+            <div class="card-content">
+                <div class="grid-container">
+                    <div class="form-group">
+                        <label for="timePerSubTier1">Seconds per Tier 1 Subscription</label>
+                        <input type="number" id="timePerSubTier1" min="0" value="<%- data.times.tier1 %>">
+                        <p class="time-preview" id="timePerSubTier1Preview">5m 0s per sub</p>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="timePerSubTier2">Seconds per Tier 2 Subscription</label>
+                        <input type="number" id="timePerSubTier2" min="0" value="<%- data.times.tier2 %>">
+                        <p class="time-preview" id="timePerSubTier2Preview">10m 0s per sub</p>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="timePerSubTier3">Seconds per Tier 3 Subscription</label>
+                        <input type="number" id="timePerSubTier3" min="0" value="<%- data.times.tier3 %>">
+                        <p class="time-preview" id="timePerSubTier3Preview">15m 0s per sub</p>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="timePerGift">Seconds per Donation</label>
+                        <input type="number" id="timePerGift" min="0" value="<%- data.times.gift %>">
+                        <p class="time-preview" id="timePerGiftPreview">1m 0s per dollar</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card full-width">
+            <div class="card-header">
+                <h2>Timer Settings</h2>
+                <p>Configure colors for the different aspects of the timer ( does not auto save )</p>
+            </div>
+            <div class="card-content">
+                <div class="timer">
+                    <div id="container">
+                        <div id="textDiv">
+                            <p id="timeText">06:18:52</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="grid-container">
+                    <div class="form-group">
+                        <label for="backgroundColor">Timer Background Color</label>
+                        <input id="backgroundColor" type="color" value="<%- data.timer.background %>" >
+                    </div>
+                    <div class="form-group">
+                        <label for="shadowColor">Timer Shadow Color</label>
+                        <input id="shadowColor" type="color" value="<%- data.timer.shadow %>" >
+                    </div>
+                    <div class="form-group">
+                        <label for="textColor">Timer Text Color</label>
+                        <input id="textColor" type="color" value="<%- data.timer.text %>" >
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- Save Button -->
+    <div class="button-container">
+        <button id="saveButton" class="save-button">
+            <span class="save-icon" id="save">💾</span>
+            Save Configuration
+        </button>
+        <button id="gotoTimer" class="save-button" style="margin-left: 1vw;">
+            <span class="save-icon">⌛</span>
+            Goto Timer
+        </button>
+    </div>
+</div>
+
+<script src="/js/dash.js"></script>
+</body>
+</html>

@@ -1,0 +1,9 @@
+# Files
+config.json
+qodana.yaml
+qodana.sarif.json
+
+# Folders
+node_modules/
+data/
+.idea/
