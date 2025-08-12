@@ -18,7 +18,7 @@ module.exports.sockets = sockets;
 module.exports.server = function (server) {
     const WSServer = new WebSocketServer({ server });
 
-    WSServer.on("connection", (socket: WebSocket) => {
+    WSServer.on("connection", (socket) => {
         const quit = setTimeout(() => {
             socket.close();
         }, 3000);
@@ -135,8 +135,11 @@ module.exports.server = function (server) {
 
         socket.on("close", (ev) => {
             if(timer !== false) clearInterval(timer);
+            timer = false;
             if(ping !== null) clearInterval(ping);
+            ping = null;
             if(close !== null) clearTimeout(close);
+            close = null;
             if(ev.code !== 4000) delete sockets[username];
         });
     });
@@ -146,6 +149,7 @@ module.exports.server = function (server) {
     });
 
     function addTime(username, time, maxTime) {
+        if(time === undefined) time = 0;
         time *= 1000;
         let path = `${process.cwd()}/data/${username}.json`
         let data = JSON.parse(fs.readFileSync(path).toString());

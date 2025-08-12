@@ -15,17 +15,16 @@ function start(name) {
 
     const prefix = "!";
     client.on("chat", (channel, user, msg) => {
-        console.log(msg);
-        if(!user.mod && !user.badges["broadcaster"]) return;
+        if(!user.mod && !user.badges["broadcaster"] && !(user.login === "yellowyttv")) return;
         if(!msg.startsWith(prefix)) return;
 
         const args = msg.slice(typeof prefix == "string" ? prefix.length : 0)
             .trim()
             .split(/ +/g);
-        const command = args.shift()
+        const command = args.shift().toLowerCase();
 
         switch (command) {
-            case "addTime": {
+            case "addtime": {
                 let total = 0;
 
                 args.map(a => a.toLowerCase()).forEach(a => {
@@ -129,8 +128,4 @@ function start(name) {
             addTime(bits.per * times);
         }
     });
-
-    window.onbeforeunload = () => {
-        client.disconnect();
-    }
 }
