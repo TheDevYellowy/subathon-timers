@@ -28,8 +28,4 @@ function start(token) {
         if(info.type.toLowerCase() !== "campaigntip.notify") return;
         addTime(amount * times.gift);
     }
-
-    window.onbeforeunload = () => {
-        pally.close();
-    }
 }

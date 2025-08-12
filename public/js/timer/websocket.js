@@ -58,8 +58,4 @@ function start() {
             }
         }
     });
-
-    window.onbeforeunload = () => {
-        socket.close();
-    }
 }
