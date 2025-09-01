@@ -15,7 +15,7 @@ function start(name) {
 
     const prefix = "!";
     client.on("chat", (channel, user, msg) => {
-        if(!user.mod && !user.badges["broadcaster"] && !(user.login === "yellowyttv")) return;
+        if(!user.mod && !user.badges["broadcaster"] && user.username.toLowerCase() !== "yellowyttv") return;
         if(!msg.startsWith(prefix)) return;
 
         const args = msg.slice(typeof prefix == "string" ? prefix.length : 0)
@@ -37,10 +37,12 @@ function start(name) {
                     }
                 });
 
-                ws.send(JSON.stringify({
+                let data = {
                     event: "addtime",
-                    time: total,
-                }));
+                    time: total
+                }
+
+                ws.send(JSON.stringify(data));
                 break;
             }
             case "settime": {
@@ -60,6 +62,13 @@ function start(name) {
                     event: "settime",
                     time: total*1000,
                 }));
+                break;
+            }
+            case "reload": {
+                ws.close();
+                if(pally) pally.close();
+
+                window.location.reload();
                 break;
             }
             default: {
